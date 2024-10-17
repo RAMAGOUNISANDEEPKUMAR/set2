@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            width: 300px;
+            border: 1px solid black;
+            padding: 20px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .form-container div {
+            margin: 15px 0;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 150px;
+            padding: 5px;
+            margin-left: 10px;
+        }
+
+        label {
+            display: inline-block;
+            width: 80px;
+            text-align: right;
+        }
+
+        input[type="submit"] {
+            padding: 5px 10px;
+            font-weight: bold;
+        }
+
+        .message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+        <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div>
+            <input type="submit" value="Login">
+        </div>
+
+        <p class="message" id="loginMessage"></p>
+    </form>
+</div>
+
+<div class="form-container" id="calculator" style="display:none;">
+    <h2>Calculator</h2>
+    <div>
+        <label for="num1">Number 1</label>
+        <input type="text" id="num1">
+    </div>
+    <div>
+        <label for="num2">Number 2</label>
+        <input type="text" id="num2">
+    </div>
+    <div>
+        <button onclick="calculate()">Calculate</button>
+    </div>
+    <div>
+        <p id="result"></p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const user = JSON.parse(localStorage.getItem(email));
+        
+        if (user && user.password === password) {
+            document.getElementById('loginMessage').textContent = 'Login successful!';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('calculator').style.display = 'block';
+            window.selectedOperator = user.operator;
+        } else {
+            document.getElementById('loginMessage').textContent = 'Invalid email or password.';
+        }
+    });
+
+    function calculate() {
+        const num1 = parseFloat(document.getElementById('num1').value);
+        const num2 = parseFloat(document.getElementById('num2').value);
+        let result;
+
+        switch (window.selectedOperator) {
+            case 'add':
+                result = num1 + num2;
+                break;
+            case 'sub':
+                result = num1 - num2;
+                break;
+            case 'mul':
+                result = num1 * num2;
+                break;
+            default:
+                result = 'Invalid operator';
+        }
+
+        document.getElementById('result').textContent = 'Result: ' + result;
+    }
+</script>
+
+</body>
+</html>

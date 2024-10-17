@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Duplicates from Sorted Array</title>
+</head>
+<body>
+
+    <h1>Remove Duplicates from Sorted Array</h1>
+    
+    <label for="arrayInput">Enter numbers</label>
+    <input type="text" id="arrayInput">
+    
+    <br><br>
+    
+    <button onclick="removeDuplicates()">Remove Duplicates</button>
+
+    <p id="result"></p>
+
+    <script>
+        function removeDuplicates() {
+            const arrayInput = document.getElementById('arrayInput').value;
+            const arr = arrayInput.split(',').map(Number).sort((a, b) => a - b);
+            if (arr.length === 0) {
+                document.getElementById('result').innerText = 'Please enter some numbers!';
+                return;
+            }
+
+            let uniqueIndex = 0; 
+            for (let i = 1; i < arr.length; i++) {
+                if (arr[i] !== arr[uniqueIndex]) {
+                    uniqueIndex++;
+                    arr[uniqueIndex] = arr[i]; 
+                }
+            }
+            const newLength = uniqueIndex + 1;
+            const newArray = arr.slice(0, newLength);
+            document.getElementById('result').innerText = `New Length: ${newLength}, New Array: [${newArray.join(', ')}]`;
+        }
+    </script>
+
+</body>
+</html>
